@@ -1,14 +1,5 @@
 export const getFormattedDate = (date) => {
-  return `${date.getFullYear()}-${(date.getMonth() + 1).toLocaleString(
-    "en-US",
-    {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    }
-  )}-${(date.getDay() + 1).toLocaleString("en-US", {
-    minimumIntegerDigits: 2,
-    useGrouping: false,
-  })}`;
+  return date.toLocaleDateString("en-US");
 };
 
 export const getDateMinusDays = (date, days) => {
