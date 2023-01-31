@@ -1,7 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import Input from "./Input";
 import Button from "../UI/Button";
-import { useExpensesContext } from "../../context/ExpensesContext";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -20,10 +19,15 @@ const schema = yup
   })
   .required();
 
-const ExpenseForm = ({ amount, date, title, id, isEditing, onCancel }) => {
+const ExpenseForm = ({
+  amount,
+  date,
+  title,
+  isEditing,
+  onSubmit,
+  onCancel,
+}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  const { updateExpense, addExpense } = useExpensesContext();
 
   const {
     control,
@@ -37,23 +41,6 @@ const ExpenseForm = ({ amount, date, title, id, isEditing, onCancel }) => {
     },
     resolver: yupResolver(schema),
   });
-
-  const confirmHandler = (data) => {
-    if (isEditing) {
-      updateExpense(id, {
-        title: data.title,
-        amount: +data.amount,
-        date: new Date(data.date),
-      });
-    } else {
-      addExpense({
-        title: data.title,
-        amount: +data.amount,
-        date: new Date(data.date),
-      });
-    }
-    onCancel();
-  };
 
   return (
     <>
@@ -112,7 +99,7 @@ const ExpenseForm = ({ amount, date, title, id, isEditing, onCancel }) => {
           <View className="w-6"></View>
           <Button
             text={isEditing ? "Edit" : "Add"}
-            onPress={handleSubmit(confirmHandler)}
+            onPress={handleSubmit(onSubmit)}
             style="min-w-[100px]"
           />
         </View>

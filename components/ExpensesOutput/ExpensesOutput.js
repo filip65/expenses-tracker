@@ -1,7 +1,6 @@
 import { View, Text } from "react-native";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
-import { useExpensesContext } from "../../context/ExpensesContext";
 
 const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText }) => {
   return (

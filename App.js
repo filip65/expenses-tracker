@@ -2,7 +2,7 @@ import AllExpensesScreen from "./screens/AllExpensesScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ManageExpenseScreen from "./screens/ManageExpenseScreen";
 import RecentExpensesScreen from "./screens/RecentExpensesScreen";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";

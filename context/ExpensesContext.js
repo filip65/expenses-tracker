@@ -1,35 +1,9 @@
-import { createContext, useContext, useReducer, useState } from "react";
-
-const DUMMY_EXPENSES = [
-  {
-    id: 1,
-    title: "A pair of shoes",
-    amount: 59.99,
-    date: new Date("2023-01-23"),
-  },
-  {
-    id: 2,
-    title: "Macbook",
-    amount: 1259.99,
-    date: new Date("2022-02-19"),
-  },
-  {
-    id: 3,
-    title: "Chocolate Protein",
-    amount: 12.99,
-    date: new Date("2022-07-01"),
-  },
-  {
-    id: 4,
-    title: "Book",
-    amount: 32.99,
-    date: new Date("2022-09-01"),
-  },
-];
+import { createContext, useContext, useReducer } from "react";
 
 const ExpensesContext = createContext({
   expenses: [],
   addExpense: ({ description, amount, date }) => {},
+  setExpenses: (expenses) => {},
   deleteExpense: ({ id }) => {},
   updateExpense: (id, { description, amount, date }) => {},
 });
@@ -37,17 +11,9 @@ const ExpensesContext = createContext({
 const expensesReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
-      const { title, amount, date } = action.payload;
-      const id = new Date().toString() + Math.random().toString();
-      return [
-        {
-          id,
-          title,
-          amount,
-          date,
-        },
-        ...state,
-      ];
+      return [action.payload, ...state];
+    case "SET":
+      return action.payload;
     case "UPDATE":
       return state.map((item) => {
         if (item.id === action.payload.id) {
@@ -65,12 +31,19 @@ const expensesReducer = (state, action) => {
 };
 
 const ExpensesContextProvider = ({ children }) => {
-  const [expenses, dispatch] = useReducer(expensesReducer, DUMMY_EXPENSES);
+  const [expenses, dispatch] = useReducer(expensesReducer, []);
 
   const addExpense = (expenseData) => {
     dispatch({
       type: "ADD",
       payload: expenseData,
+    });
+  };
+
+  const setExpenses = (expenses) => {
+    dispatch({
+      type: "SET",
+      payload: expenses,
     });
   };
 
@@ -93,7 +66,13 @@ const ExpensesContextProvider = ({ children }) => {
 
   return (
     <ExpensesContext.Provider
-      value={{ expenses, addExpense, deleteExpense, updateExpense }}
+      value={{
+        expenses,
+        addExpense,
+        setExpenses,
+        deleteExpense,
+        updateExpense,
+      }}
     >
       {children}
     </ExpensesContext.Provider>
