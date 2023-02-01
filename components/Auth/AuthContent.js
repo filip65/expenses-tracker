@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, View } from "react-native";
 
 import AuthForm from "./AuthForm";
 import { useNavigation } from "@react-navigation/native";
 import FlatButton from "../UI/FlatButton";
-import { GlobalStyles } from "../../constants/style";
 
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
@@ -53,14 +52,14 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.authContent}>
+    <View className="flex-1 justify-center items-center px-8">
+      <View className="w-full max-w-[320px] px-6 py-4 rounded-lg bg-primary800 shadow-2xl">
         <AuthForm
           isLogin={isLogin}
           onSubmit={submitHandler}
           credentialsInvalid={credentialsInvalid}
         />
-        <View style={styles.buttons}>
+        <View className="mt-2">
           <FlatButton onPress={switchAuthModeHandler}>
             {isLogin ? "Create a new user" : "Log in instead"}
           </FlatButton>
@@ -71,27 +70,3 @@ function AuthContent({ isLogin, onAuthenticate }) {
 }
 
 export default AuthContent;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 28,
-  },
-  authContent: {
-    width: "100%",
-    maxWidth: 320,
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: GlobalStyles.colors.primary800,
-    elevation: 2,
-    shadowColor: "black",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 4,
-  },
-  buttons: {
-    marginTop: 8,
-  },
-});

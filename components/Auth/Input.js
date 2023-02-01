@@ -1,5 +1,4 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
-import { GlobalStyles } from "../../constants/style";
+import { View, Text, TextInput } from "react-native";
 
 function Input({
   label,
@@ -11,12 +10,14 @@ function Input({
   autoComplete,
 }) {
   return (
-    <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
+    <View className="my-2">
+      <Text className={`text-white mb-1 ${isInvalid ? "text-error500" : ""}`}>
         {label}
       </Text>
       <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
+        className={`py-2 px-1 bg-primary100 rounded ${
+          isInvalid ? "bg-error50" : ""
+        }`}
         autoCapitalize={false}
         autoCapitalize="none"
         autoComplete={autoComplete}
@@ -24,32 +25,12 @@ function Input({
         secureTextEntry={secure}
         onChangeText={onUpdateValue}
         value={value}
+        style={{
+          fontSize: 16,
+        }}
       />
     </View>
   );
 }
 
 export default Input;
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginVertical: 8,
-  },
-  label: {
-    color: "white",
-    marginBottom: 4,
-  },
-  labelInvalid: {
-    color: GlobalStyles.colors.error500,
-  },
-  input: {
-    paddingVertical: 8,
-    paddingHorizontal: 6,
-    backgroundColor: GlobalStyles.colors.primary100,
-    borderRadius: 4,
-    fontSize: 16,
-  },
-  inputInvalid: {
-    backgroundColor: GlobalStyles.colors.error50,
-  },
-});
