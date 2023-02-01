@@ -11,10 +11,12 @@ import {
 } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { useAuthContext } from "../context/AuthContext";
 
 const ManageExpenseScreen = ({ route, navigation }) => {
   const { deleteExpense, updateExpense, addExpense, expenses } =
     useExpensesContext();
+  const { token } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -34,7 +36,10 @@ const ManageExpenseScreen = ({ route, navigation }) => {
     setError(null);
     try {
       deleteExpense(expenseId);
-      await deleteExpenseServer(expenseId);
+      await deleteExpenseServer({
+        id: expenseId,
+        token,
+      });
       cancelHandler();
     } catch (error) {
       setError("Failed to delete expense");
@@ -52,7 +57,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
           date: new Date(data.date),
         };
 
-        await updateExpenseServer(expenseId, expenseData);
+        await updateExpenseServer({ expenseId, expenseData, token });
         updateExpense(expenseId, expenseData);
         cancelHandler();
       } catch (error) {
@@ -66,10 +71,11 @@ const ManageExpenseScreen = ({ route, navigation }) => {
           date: new Date(data.date),
         };
 
-        const id = await saveExpense(newExpense);
+        const id = await saveExpense({ newExpense, token });
         addExpense({ id, ...newExpense });
         cancelHandler();
       } catch (error) {
+        console.log(error);
         setError("Failed to add expense");
       }
     }
@@ -104,7 +110,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
       {isEditing && (
         <View className="pt-4 mt-4 border-t-2 border-primary200 items-center">
           <IconButton
-            name="trash"
+            icon="trash"
             color={GlobalStyles.colors.error500}
             size={36}
             onPress={deleteExpenseHandler}

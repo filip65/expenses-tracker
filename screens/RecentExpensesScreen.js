@@ -5,9 +5,11 @@ import { loadExpenses } from "../util/http";
 import { useEffect, useState } from "react";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { useAuthContext } from "../context/AuthContext";
 
 const RecentExpensesScreen = () => {
   const { expenses, setExpenses } = useExpensesContext();
+  const { token } = useAuthContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
@@ -23,7 +25,7 @@ const RecentExpensesScreen = () => {
     setIsError(false);
 
     try {
-      const data = await loadExpenses();
+      const data = await loadExpenses({ token });
       setExpenses(data);
       setIsLoading(false);
     } catch (error) {

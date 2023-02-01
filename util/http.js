@@ -1,16 +1,17 @@
 import axios from "axios";
+import { SERVER_URL } from "@env";
 
-const SERVER_URL =
-  "https://expenses-app-921f1-default-rtdb.europe-west1.firebasedatabase.app";
-
-export const saveExpense = async (expenseData) => {
-  const response = await axios.post(`${SERVER_URL}/expenses.json`, expenseData);
+export const saveExpense = async ({ expenseData, token }) => {
+  const response = await axios.post(
+    `${SERVER_URL}/expenses.json?auth=${token}`,
+    expenseData
+  );
 
   return response.data.name;
 };
 
-export const loadExpenses = async () => {
-  const response = await axios.get(`${SERVER_URL}/expenses.json`);
+export const loadExpenses = async ({ token }) => {
+  const response = await axios.get(`${SERVER_URL}/expenses.json?auth=${token}`);
 
   const responsesArray = Object.keys(response.data).map((item) => {
     return {
@@ -23,10 +24,13 @@ export const loadExpenses = async () => {
   return responsesArray;
 };
 
-export const updateExpenseServer = (id, expenseData) => {
-  return axios.put(`${SERVER_URL}/expenses/${id}.json`, expenseData);
+export const updateExpenseServer = ({ id, expenseData, token }) => {
+  return axios.put(
+    `${SERVER_URL}/expenses/${id}.json?auth=${token}`,
+    expenseData
+  );
 };
 
-export const deleteExpenseServer = (id) => {
-  return axios.delete(`${SERVER_URL}/expenses/${id}.json`);
+export const deleteExpenseServer = ({ id, token }) => {
+  return axios.delete(`${SERVER_URL}/expenses/${id}.json?auth=${token}`);
 };
