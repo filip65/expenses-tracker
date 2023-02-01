@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Alert, View } from "react-native";
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
 import AuthForm from "./AuthForm";
 import { useNavigation } from "@react-navigation/native";
@@ -52,20 +59,27 @@ function AuthContent({ isLogin, onAuthenticate }) {
   }
 
   return (
-    <View className="flex-1 justify-center items-center px-8">
-      <View className="w-full max-w-[320px] px-6 py-4 rounded-lg bg-primary800 shadow-2xl">
-        <AuthForm
-          isLogin={isLogin}
-          onSubmit={submitHandler}
-          credentialsInvalid={credentialsInvalid}
-        />
-        <View className="mt-2">
-          <FlatButton onPress={switchAuthModeHandler}>
-            {isLogin ? "Create a new user" : "Log in instead"}
-          </FlatButton>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1"
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View className="flex-1 justify-center items-center px-8">
+          <View className="w-full max-w-[320px] px-6 py-4 rounded-lg bg-primary800 shadow-2xl">
+            <AuthForm
+              isLogin={isLogin}
+              onSubmit={submitHandler}
+              credentialsInvalid={credentialsInvalid}
+            />
+            <View className="mt-2">
+              <FlatButton onPress={switchAuthModeHandler}>
+                {isLogin ? "Create a new user" : "Log in instead"}
+              </FlatButton>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
