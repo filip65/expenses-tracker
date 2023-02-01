@@ -143,9 +143,10 @@ const Root = () => {
       await SplashScreen.preventAutoHideAsync();
 
       const storageToken = await AsyncStorage.getItem("token");
+      const storageLocalId = await AsyncStorage.getItem("localId");
 
-      if (storageToken) {
-        authenticate(storageToken);
+      if (storageToken && storageLocalId) {
+        authenticate({ token: storageToken, localId: storageLocalId });
       }
 
       setAppIsReady(true);

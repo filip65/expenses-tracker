@@ -13,12 +13,12 @@ function SignupScreen() {
     setIsLoading(true);
 
     try {
-      const { idToken } = await signupWithEmailAndPassword({
+      const { idToken, localId } = await signupWithEmailAndPassword({
         email,
         password,
       });
 
-      authenticate(idToken);
+      authenticate({ token: idToken, localId });
     } catch (error) {
       Alert.alert("Registration failed.");
       console.log(error);

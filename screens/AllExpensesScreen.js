@@ -8,7 +8,7 @@ import { useAuthContext } from "../context/AuthContext";
 
 const AllExpensesScreen = () => {
   const { expenses, setExpenses } = useExpensesContext();
-  const { token } = useAuthContext();
+  const { token, localId } = useAuthContext();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -18,7 +18,7 @@ const AllExpensesScreen = () => {
     setIsError(false);
 
     try {
-      const data = await loadExpenses({ token });
+      const data = await loadExpenses({ token, localId });
 
       setExpenses(data);
       setIsLoading(false);

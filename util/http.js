@@ -1,17 +1,27 @@
 import axios from "axios";
 import { SERVER_URL } from "@env";
 
-export const saveExpense = async ({ expenseData, token }) => {
+export const saveExpense = async ({ data, token, localId }) => {
   const response = await axios.post(
-    `${SERVER_URL}/expenses.json?auth=${token}`,
-    expenseData
+    `${SERVER_URL}/users/${localId}/expenses.json?auth=${token}`,
+    data
   );
 
   return response.data.name;
 };
 
-export const loadExpenses = async ({ token }) => {
-  const response = await axios.get(`${SERVER_URL}/expenses.json?auth=${token}`);
+export const loadExpenses = async ({ token, localId }) => {
+  const userResponse = await axios.get(
+    `${SERVER_URL}/users/${localId}.json?auth=${token}`
+  );
+
+  if (!userResponse.data) {
+    return [];
+  }
+
+  const response = await axios.get(
+    `${SERVER_URL}/users/${localId}/expenses.json?auth=${token}`
+  );
 
   const responsesArray = Object.keys(response.data).map((item) => {
     return {
@@ -24,13 +34,15 @@ export const loadExpenses = async ({ token }) => {
   return responsesArray;
 };
 
-export const updateExpenseServer = ({ id, expenseData, token }) => {
+export const updateExpenseServer = ({ id, data, token, localId }) => {
   return axios.put(
-    `${SERVER_URL}/expenses/${id}.json?auth=${token}`,
-    expenseData
+    `${SERVER_URL}/users/${localId}/expenses/${id}.json?auth=${token}`,
+    data
   );
 };
 
-export const deleteExpenseServer = ({ id, token }) => {
-  return axios.delete(`${SERVER_URL}/expenses/${id}.json?auth=${token}`);
+export const deleteExpenseServer = ({ id, token, localId }) => {
+  return axios.delete(
+    `${SERVER_URL}/users/${localId}/expenses/${id}.json?auth=${token}`
+  );
 };

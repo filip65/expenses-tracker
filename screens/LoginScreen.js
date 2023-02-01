@@ -13,12 +13,12 @@ function LoginScreen() {
     setIsLoading(true);
 
     try {
-      const { idToken } = await loginWithEmailAndPassword({
+      const { idToken, localId } = await loginWithEmailAndPassword({
         email,
         password,
       });
 
-      authenticate(idToken);
+      authenticate({ token: idToken, localId });
     } catch (error) {
       Alert.alert(
         "Authentication failed",

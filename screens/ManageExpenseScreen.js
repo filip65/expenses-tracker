@@ -16,7 +16,7 @@ import { useAuthContext } from "../context/AuthContext";
 const ManageExpenseScreen = ({ route, navigation }) => {
   const { deleteExpense, updateExpense, addExpense, expenses } =
     useExpensesContext();
-  const { token } = useAuthContext();
+  const { token, localId } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -39,6 +39,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
       await deleteExpenseServer({
         id: expenseId,
         token,
+        localId,
       });
       cancelHandler();
     } catch (error) {
@@ -57,7 +58,12 @@ const ManageExpenseScreen = ({ route, navigation }) => {
           date: new Date(data.date),
         };
 
-        await updateExpenseServer({ expenseId, expenseData, token });
+        await updateExpenseServer({
+          id: expenseId,
+          data: expenseData,
+          token,
+          localId,
+        });
         updateExpense(expenseId, expenseData);
         cancelHandler();
       } catch (error) {
@@ -71,7 +77,7 @@ const ManageExpenseScreen = ({ route, navigation }) => {
           date: new Date(data.date),
         };
 
-        const id = await saveExpense({ newExpense, token });
+        const id = await saveExpense({ data: newExpense, token, localId });
         addExpense({ id, ...newExpense });
         cancelHandler();
       } catch (error) {
