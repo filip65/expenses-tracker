@@ -52,7 +52,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           value={enteredEmail}
           keyboardType="email-address"
           isInvalid={emailIsInvalid}
-          autoComplete={false}
+          autoComplete={"off"}
         />
         {!isLogin && (
           <Input

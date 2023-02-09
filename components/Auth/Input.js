@@ -18,8 +18,6 @@ function Input({
         className={`py-2 px-1 bg-primary100 rounded ${
           isInvalid ? "bg-error50" : ""
         }`}
-        autoCapitalize={false}
-        autoCapitalize="none"
         autoComplete={autoComplete}
         keyboardType={keyboardType}
         secureTextEntry={secure}

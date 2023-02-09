@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "expenses-tracker",
+    "name": "My expenses",
     "slug": "expenses-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.filipdev.expensestracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "02c62093-2eee-4a54-bd11-bb1167863f29"
+      }
     }
   }
 }
